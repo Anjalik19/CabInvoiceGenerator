@@ -9,14 +9,23 @@ namespace CabInvoiceGenerator
 {
     public class Ride
     {
+        string rideType;
         double time;
         double distance;
-        public Ride(double distance,double time)
+        public Ride(string rideType,double distance,double time)
         {
             this.distance = distance;
             this.time = time;
+            this.rideType = rideType;
         }
 
+        public string RideType
+        {
+            get
+            {
+                return this.rideType;
+            }
+        }
         public double Time
         {
             get 

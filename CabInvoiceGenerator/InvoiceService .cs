@@ -16,14 +16,16 @@ namespace CabInvoiceGenerator
     /// </summary>
     public class InvoiceService
     {
-        int costPerMinute = 1;
-        int costPerKilometer = 10;
-        int minimumFare = 5;
+        int normalCostPerMinute = 1;
+        int normalCostPerKilometer = 10;
+        int normalMinimumFare = 5;
         double totalFare = 0;
         int numberOfRides = 0;
         double total_Fare = 0;
         double averageFarePerRide = 0;
-
+        int premiumRideCostPerMin =2;
+        int premiumCostPerKilometer =15;
+        int premiumMinimumFare =20;
         public int NumberOfRides
         {
             get
@@ -45,15 +47,23 @@ namespace CabInvoiceGenerator
         /// <param name="distance"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        public double CalculateFare(double distance, double time)
+        public double CalculateFare(string rideType,double distance, double time)
         {
-            totalFare = distance * costPerKilometer + time * costPerMinute;
-            if(totalFare>minimumFare)
+            if (rideType == "Normal")
+            {
+                totalFare = distance * normalCostPerKilometer + time * normalCostPerMinute;
+                if (totalFare > normalMinimumFare)
+                {
+                    return totalFare;
+                }
+                return normalMinimumFare;
+            }
+            totalFare = distance * premiumCostPerKilometer + time * premiumRideCostPerMin;
+            if(totalFare>premiumMinimumFare)
             {
                 return totalFare;
             }
-            return minimumFare;
-
+            return premiumMinimumFare;
         }
 
         /// <summary>
@@ -65,7 +75,7 @@ namespace CabInvoiceGenerator
         {
             foreach (var item in ride)
             {
-                total_Fare = total_Fare + CalculateFare(item.Distance, item.Time);
+                total_Fare = total_Fare + CalculateFare(item.RideType,item.Distance, item.Time);
             }
 
             numberOfRides = ride.Length;
