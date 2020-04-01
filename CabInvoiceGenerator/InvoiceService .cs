@@ -72,7 +72,5 @@ namespace CabInvoiceGenerator
             averageFarePerRide = total_Fare / numberOfRides;
             return total_Fare;
         }
-
-
     }
 }
