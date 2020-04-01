@@ -17,13 +17,28 @@ namespace CabInvoiceGenerator
     public class InvoiceService
     {
         int costPerMinute = 1;
-        double costPerKilometer = 10;
-        double minimumFare = 5;
+        int costPerKilometer = 10;
+        int minimumFare = 5;
         double totalFare = 0;
-        int totalNumberOfRides = 0;
-        double Total_Fare = 0;
+        int numberOfRides = 0;
+        double total_Fare = 0;
         double averageFarePerRide = 0;
-        
+
+        public int NumberOfRides
+        {
+            get
+            {
+               return this.numberOfRides;
+            }
+        }
+
+        public double AverageFarePerRide
+        {
+            get
+            {
+                return this.averageFarePerRide;
+            }
+        }
         /// <summary>
         /// CalculateFare method
         /// </summary>
@@ -48,12 +63,14 @@ namespace CabInvoiceGenerator
         /// <returns></returns>
         public double CalculateFare(Ride[] ride)
         {
-            foreach(var item in ride)
+            foreach (var item in ride)
             {
-                totalFare = totalFare + CalculateFare(item.Distance, item.Time);
+                total_Fare = total_Fare + CalculateFare(item.Distance, item.Time);
             }
-            totalNumberOfRides = ride.Length;
-            return totalFare;
+
+            numberOfRides = ride.Length;
+            averageFarePerRide = total_Fare / numberOfRides;
+            return total_Fare;
         }
 
 
