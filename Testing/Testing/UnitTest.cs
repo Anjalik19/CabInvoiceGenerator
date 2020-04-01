@@ -9,6 +9,8 @@ namespace Testing
 {
     using NUnit.Framework;
     using CabInvoiceGenerator;
+    using System;
+
     public class Tests
     {
         [SetUp]
@@ -38,13 +40,31 @@ namespace Testing
         {
             InvoiceService invoiceService = new InvoiceService();
             Ride[] ride =
-                {
+            {
                 new Ride(5,10),
                 new Ride(10, 20)
             };
             double actual = invoiceService.CalculateFare(ride);
             double expected = 180;
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GivenInvoiceGenerator_ShouldReturn_TotalRides_TotalFare_AverageFare()
+        {
+            InvoiceService invoiceService = new InvoiceService();
+            Ride[] ride =
+            {
+                new Ride(20,10),
+                new Ride(15,5),
+                new Ride(10,3)
+            };
+            double Total_Fare = invoiceService.CalculateFare(ride);
+            double AverageFarePerRide =Math.Round(invoiceService.AverageFarePerRide);
+            int totalNumberOfRides = invoiceService.NumberOfRides; 
+            Assert.AreEqual(156, AverageFarePerRide);
+            Assert.AreEqual(468, Total_Fare);
+            Assert.AreEqual(3, totalNumberOfRides);
         }
     }
 
