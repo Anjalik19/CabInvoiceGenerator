@@ -26,7 +26,7 @@ namespace Testing
         public void Given_DistanceAndTime_ShouldReturn_TotalFare()
         {
             InvoiceService invoiceService = new InvoiceService();
-            double actual = invoiceService.CalculateFare(5, 10);
+            double actual = invoiceService.CalculateFare("Normal",5, 10);
             double expected = 60;
             Assert.AreEqual(expected, actual);
         }
@@ -41,8 +41,8 @@ namespace Testing
             InvoiceService invoiceService = new InvoiceService();
             Ride[] ride =
             {
-                new Ride(5,10),
-                new Ride(10, 20)
+                new Ride("Normal",5,10),
+                new Ride("Normal",10, 20)
             };
             double actual = invoiceService.CalculateFare(ride);
             double expected = 180;
@@ -59,9 +59,9 @@ namespace Testing
             InvoiceService invoiceService = new InvoiceService();
             Ride[] ride =
             {
-                new Ride(20,10),
-                new Ride(15,5),
-                new Ride(10,3)
+                new Ride("Normal",20,10),
+                new Ride("Normal",15,5),
+                new Ride("Normal",10,3)
             };
             double Total_Fare = invoiceService.CalculateFare(ride);
             double AverageFarePerRide = Math.Round(invoiceService.AverageFarePerRide);
@@ -82,14 +82,36 @@ namespace Testing
             InvoiceService invoiceService = new InvoiceService();
             Ride[] ride =
                 {
-                new Ride(20,10),
-                new Ride(15,5),
-                new Ride(10,3)
+                new Ride("Normal",20,10),
+                new Ride("Normal",15,5),
+                new Ride("Normal",10,3)
             };
             RideRepository rideRepository = new RideRepository();
             rideRepository.AddRide(userId, ride);
             double totalFare = invoiceService.CalculateFare(rideRepository.GetRides(userId));
             Assert.AreEqual(468, totalFare);
+        }
+
+        /// <summary>
+        /// TestCase5
+        /// Invoic service return premium and normal rides
+        /// </summary>
+        [Test]
+        public void GivenInvoiceService_ReturnPremiumAndNormalRides()
+        {
+            string userId = "Anjali@gmail.com";
+            InvoiceService invoiceService = new InvoiceService();
+            Ride[] ride =
+                {
+                new Ride("Normal",15,5),
+                new Ride("Normal",10,3),
+                new Ride("Premium",20,10),
+                new Ride("Premium",15,20)
+            };
+            RideRepository rideRepository = new RideRepository();
+            rideRepository.AddRide(userId, ride);
+            double totalFare = invoiceService.CalculateFare(rideRepository.GetRides(userId));
+            Assert.AreEqual(843, totalFare);
         }
     }
 }
